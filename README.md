@@ -29,7 +29,7 @@ To execute the script locally, your computer must allow PowerShell scripts to ru
 Set-ExecutionPolicy Bypass
 ```
 
-Once this setting is applied, you can download and run the following command in either a standard or admin PowerShell session:
+Once this setting is applied, you can download the script and run the following command in either a standard or admin PowerShell session:
 
 ```ps1
 .\winfix.ps1
