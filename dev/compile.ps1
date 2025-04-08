@@ -57,6 +57,17 @@ Get-ChildItem -Path $ScriptsDir -Filter *.ps1 | ForEach-Object {
 }
 Write-Host ""
 
+# Get all files in the scripts folder
+Write-Host "Joining all main files!" -ForegroundColor Cyan
+Get-ChildItem -Path $RootDir -Filter *.ps1 | ForEach-Object {
+    # Get the content of the file
+    $Content = Get-Content $_.FullName
+    $FilteredContent = $Content | Where-Object { $_ -notmatch "^Import-Module" -and $_ -notmatch "^#" }
+    Write-Host "Getting contents of $_..."
+    $OutputContent += ($FilteredContent -join "`n") + "`n"
+}
+Write-Host ""
+
 # Save contents
 Write-Host "Started to save content!" -ForegroundColor Cyan
 Set-Content -Path $OutputFile -Value $OutputContent
