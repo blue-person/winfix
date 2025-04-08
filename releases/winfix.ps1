@@ -1206,8 +1206,8 @@ function Show-AdvancedMenu {
             (4) { Disable-SystemProcesses; break }
             (5) { Disable-SystemServices; break }
             (6) { Disable-AdobeServices; break }
-            (8) { Enable-VerboseMode; break }
-            (7) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
+            (7) { Enable-VerboseMode; break }
+            (8) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
             (9) { $DisplayMenu = $false; break }
         }
     }
