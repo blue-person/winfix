@@ -145,3 +145,21 @@ function Set-TaskState {
         Show-ErrorMessage -Title "Unable to configure $Task!"
     }
 }
+
+function Remove-FolderContent {
+    # Parameters
+    param (
+        [Parameter(Mandatory=$true)][string]$Path
+    )
+
+    # Remove all files from path
+    Get-ChildItem -Path $Path *.* -Recurse | ForEach-Object {
+        try {
+            Remove-Item -Path $_.FullName -Force -Recurse -ErrorAction Stop
+            Write-Host "Deleted $($_.FullName)..."
+        } catch {
+            $null
+        }
+    }
+    Write-Host "All deletable files were successfully removed!" -ForegroundColor Green
+}

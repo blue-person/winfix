@@ -40,7 +40,8 @@ function Show-EssentialsMenu {
         @{Name = "Set High Power Plan"; Description = "Set the power plan to high performance"},
         @{Name = "Disable Bing Search"; Description = "Disable Bing integration in Windows Search"},
         @{Name = "Reduce VFX"; Description = "Configure the system appearance for better performance"},
-        @{Name = "Repair Drive"; Description = "Use DISM to repair the current drive"},
+        @{Name = "Clean Drive"; Description = "Cleanup unnecessary files, but may take some time"},
+        @{Name = "Repair Drive"; Description = "Repair the current drive, but may take some time"},
         @{Name = "Return to main menu"; Description = "Close current menu"}
     )
 
@@ -51,8 +52,9 @@ function Show-EssentialsMenu {
            (0) { Set-PowerPlan -Plan "High"; break }
            (1) { Disable-BingSearch; break }
            (2) { Set-PerformanceDisplay; break }
-           (3) { Invoke-DiskRepair; break }
-           (4) { $DisplayMenu = $false; break }
+           (3) { Invoke-DiskCleanup; break }
+           (4) { Invoke-DiskRepair; break }
+           (5) { $DisplayMenu = $false; break }
        }
    }
 }
@@ -85,8 +87,8 @@ function Show-AdvancedMenu {
             (4) { Disable-SystemProcesses; break }
             (5) { Disable-SystemServices; break }
             (6) { Disable-AdobeServices; break }
-            (7) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
             (8) { Enable-VerboseMode; break }
+            (7) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
             (9) { $DisplayMenu = $false; break }
         }
     }

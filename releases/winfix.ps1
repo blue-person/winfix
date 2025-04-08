@@ -159,6 +159,24 @@ function Set-TaskState {
     }
 }
 
+function Remove-FolderContent {
+    # Parameters
+    param (
+        [Parameter(Mandatory=$true)][string]$Path
+    )
+
+    # Remove all files from path
+    Get-ChildItem -Path $Path *.* -Recurse | ForEach-Object {
+        try {
+            Remove-Item -Path $_.FullName -Force -Recurse -ErrorAction Stop
+            Write-Host "Deleted $($_.FullName)..."
+        } catch {
+            $null
+        }
+    }
+    Write-Host "All deletable files were successfully removed!" -ForegroundColor Green
+}
+
 function Set-DarkTheme {
     # Structures
     $Keys = @(
@@ -1058,7 +1076,7 @@ function Invoke-DiskRepair {
             Write-Host ''
 
             Write-Host '(3/4) Started fixing drive with DISM!' -ForegroundColor Cyan
-            dism /online /cleanup-image /restorehealth
+            dism /Online /Cleanup-Image /RestoreHealth
             Write-Host ''
             
             Write-Host '(4/4) Started second SFC scan!' -ForegroundColor Cyan
@@ -1074,97 +1092,36 @@ function Invoke-DiskRepair {
     }
  }
  
-
-function Enable-Encryption {
-    # Parameters
-    param (
-        [Parameter(Mandatory=$true)][string]$DriveLetter,
-        [Parameter(Mandatory=$true)][string]$Method
-    )
-
-    # Enable encryption
+ function Invoke-DiskCleanup {
+    # Clean Manager
+    Write-Host "(1/4) Using Clean Manager to perform cleanup operations!" -ForegroundColor Cyan
+    Write-Host "Waiting for process to finish..."
+    cleanmgr /d "C:" /verylowdisk
+    Write-Host ""
+    
+    # Delete user temp folder
+    Write-Host "(2/4) Deleting files from $env:TEMP!" -ForegroundColor Cyan
+    Remove-FolderContent $env:TEMP
+    Write-Host ""
+    
+    # Execute as admin
     try {
-        Write-Host "Initializing BitLocker..."
-        Enable-Bitlocker -MountPoint $DriveLetter -EncryptionMethod $Method -UsedSpaceOnly -RecoveryPasswordProtector -ErrorAction Stop
-        Write-Host "BitLocker was successfully enabled!" -ForegroundColor Green
-        Write-Host ""
+        Invoke-ElevatedShell "
+            # Delete system temp folder
+            Write-Host '(3/4) Deleting files from C:\Windows\Temp!' -ForegroundColor Cyan
+            Remove-FolderContent 'C:\Windows\Temp'
+            Write-Host ''
+
+            # DISM Cleanup
+            Write-Host '(4/4) Using DISM to perform cleanup operations!' -ForegroundColor Cyan
+            dism /Online /Cleanup-Image /StartComponentCleanup /ResetBase
+            Write-Host ''
+            Pause
+        "
     } catch {
-        Show-ErrorMessage -Title "Failed to enable BitLocker!" -Message $_.Exception.Message
+        Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
+        Pause
     }
-}
-
-function Backup-Key {
-    # Parameters
-    param (
-        [Parameter(Mandatory=$true)][string]$Path
-    )
-
-    # Backup key
-    try {
-        # Create directory if it doesn't exists
-        if (-Not (Test-Path $Path)) {
-            Write-Host "Creating $Path..."
-            New-Item -ItemType Directory -Path $Path | Out-Null
-            Write-Host "Directory was successfully created!" -ForegroundColor Green
-            Write-Host ""
-        }
-
-        # Get variables
-        $RecoveryKey = (Get-BitLockerVolume -MountPoint $DriveLetter).KeyProtector | Where-Object {$_.KeyProtectorType -eq "RecoveryPassword"}
-        $RecoveryPass = $RecoveryKey.RecoveryPassword
-        $DeviceID = $RecoveryKey.KeyProtectorId.Replace("{", "").Replace("}", "")
-        $FileContent = @"
-Clave de recuperación de Cifrado de unidad BitLocker 
-    
-Para comprobar que esta es la clave de recuperación correcta, compara el comienzo del siguiente identificador con el valor de identificador que se muestra en tu equipo.
-    
-Identificador:
-    
-    $DeviceID
-    
-Si el identificador anterior coincide con el que se muestra en el equipo, usa la siguiente clave para desbloquear la unidad.
-    
-Clave de recuperación:
-    
-    $RecoveryPass
-    
-Si el identificador anterior no coincide con el que se muestra en el equipo, esta no es la clave correcta para desbloquear la unidad.
-Prueba con otra clave de recuperación o visita https://go.microsoft.com/fwlink/?LinkID=260589 para obtener ayuda adicional.
-"@
-
-        # Save file with the recovery password
-        Write-Host "Saving recovery key..."
-        $FilePath = $Path + "\Clave de BitLocker - $DeviceName - $DeviceID.txt"
-        Set-Content -Path $FilePath -Value $FileContent
-        Write-Host "Recovery key was saved successfully at $Path!" -ForegroundColor Green
-        Write-Host ""
-    } catch {
-        Show-ErrorMessage -Title "Failed to save recovery key!" -Message $_.Exception.Message
-    }    
-}
-
-function Invoke-EnableEncryption {
-    # Parameters
-    param (
-        [string]$DriveLetter = "C",
-        [string]$Method = "XtsAes128", #"XtsAes256"
-        [string]$DeviceName = (Invoke-Expression -Command "hostname"),
-        [string]$Path = "C:\temp" #(New-Object -ComObject Shell.Application).Namespace("shell:Downloads").Self.Path
-    )
-
-    # Check if BitLocker is enabled
-    Write-Host "Checking if the disk is unprotected..."
-    if ((Get-BitLockerVolume -MountPoint $DriveLetter).ProtectionStatus -eq "On") {
-        Write-Host "Turns out the disk was already encrypted!" -ForegroundColor Green
-        Write-Host "We will proceed to create a recovery file as a precaution."
-        Write-Host ""
-    } else {
-        Enable-Encryption -DriveLetter $DriveLetter -Method $Method
-    }
-
-    # Create recovery file
-    Backup-Key -Path $Path
-    Pause
 }
 
 function Show-MainMenu {
@@ -1202,7 +1159,8 @@ function Show-EssentialsMenu {
         @{Name = "Set High Power Plan"; Description = "Set the power plan to high performance"},
         @{Name = "Disable Bing Search"; Description = "Disable Bing integration in Windows Search"},
         @{Name = "Reduce VFX"; Description = "Configure the system appearance for better performance"},
-        @{Name = "Repair Drive"; Description = "Use DISM to repair the current drive"},
+        @{Name = "Clean Drive"; Description = "Cleanup unnecessary files, but may take some time"},
+        @{Name = "Repair Drive"; Description = "Repair the current drive, but may take some time"},
         @{Name = "Return to main menu"; Description = "Close current menu"}
     )
 
@@ -1213,8 +1171,9 @@ function Show-EssentialsMenu {
            (0) { Set-PowerPlan -Plan "High"; break }
            (1) { Disable-BingSearch; break }
            (2) { Set-PerformanceDisplay; break }
-           (3) { Invoke-DiskRepair; break }
-           (4) { $DisplayMenu = $false; break }
+           (3) { Invoke-DiskCleanup; break }
+           (4) { Invoke-DiskRepair; break }
+           (5) { $DisplayMenu = $false; break }
        }
    }
 }
@@ -1247,8 +1206,8 @@ function Show-AdvancedMenu {
             (4) { Disable-SystemProcesses; break }
             (5) { Disable-SystemServices; break }
             (6) { Disable-AdobeServices; break }
-            (7) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
             (8) { Enable-VerboseMode; break }
+            (7) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
             (9) { $DisplayMenu = $false; break }
         }
     }

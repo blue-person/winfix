@@ -136,7 +136,7 @@ function Invoke-DiskRepair {
             Write-Host ''
 
             Write-Host '(3/4) Started fixing drive with DISM!' -ForegroundColor Cyan
-            dism /online /cleanup-image /restorehealth
+            dism /Online /Cleanup-Image /RestoreHealth
             Write-Host ''
             
             Write-Host '(4/4) Started second SFC scan!' -ForegroundColor Cyan
@@ -152,3 +152,34 @@ function Invoke-DiskRepair {
     }
  }
  
+ function Invoke-DiskCleanup {
+    # Clean Manager
+    Write-Host "(1/4) Using Clean Manager to perform cleanup operations!" -ForegroundColor Cyan
+    Write-Host "Waiting for process to finish..."
+    cleanmgr /d "C:" /verylowdisk
+    Write-Host ""
+    
+    # Delete user temp folder
+    Write-Host "(2/4) Deleting files from $env:TEMP!" -ForegroundColor Cyan
+    Remove-FolderContent $env:TEMP
+    Write-Host ""
+    
+    # Execute as admin
+    try {
+        Invoke-ElevatedShell "
+            # Delete system temp folder
+            Write-Host '(3/4) Deleting files from C:\Windows\Temp!' -ForegroundColor Cyan
+            Remove-FolderContent 'C:\Windows\Temp'
+            Write-Host ''
+
+            # DISM Cleanup
+            Write-Host '(4/4) Using DISM to perform cleanup operations!' -ForegroundColor Cyan
+            dism /Online /Cleanup-Image /StartComponentCleanup /ResetBase
+            Write-Host ''
+            Pause
+        "
+    } catch {
+        Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
+        Pause
+    }
+}

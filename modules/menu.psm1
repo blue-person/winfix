@@ -1,6 +1,7 @@
 # Import modules
 Import-Module ".\modules\core.psm1" -Force
 
+# Functions
 function Show-Menu {
     # Parameters
     param (
