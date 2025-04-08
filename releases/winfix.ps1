@@ -98,6 +98,24 @@ function Remove-RegistryKey {
     }
 }
 
+function Remove-FolderContent {
+    # Parameters
+    param (
+        [Parameter(Mandatory=$true)][string]$Path
+    )
+
+    # Remove all files from path
+    Get-ChildItem -Path $Path *.* -Recurse | Where-Object { $_.FullName -ne $PSCommandPath } | ForEach-Object {
+        try {
+            Remove-Item -Path $_.FullName -Force -Recurse -ErrorAction Stop
+            Write-Host "Deleted $($_.FullName)..."
+        } catch {
+            $null
+        }
+    }
+    Write-Host "All deletable files were successfully removed!" -ForegroundColor Green
+}
+
 function Remove-App {
     # Parameters
     param (
@@ -157,24 +175,6 @@ function Set-TaskState {
     } catch {
         Show-ErrorMessage -Title "Unable to configure $Task!"
     }
-}
-
-function Remove-FolderContent {
-    # Parameters
-    param (
-        [Parameter(Mandatory=$true)][string]$Path
-    )
-
-    # Remove all files from path
-    Get-ChildItem -Path $Path *.* -Recurse | ForEach-Object {
-        try {
-            Remove-Item -Path $_.FullName -Force -Recurse -ErrorAction Stop
-            Write-Host "Deleted $($_.FullName)..."
-        } catch {
-            $null
-        }
-    }
-    Write-Host "All deletable files were successfully removed!" -ForegroundColor Green
 }
 
 function Set-DarkTheme {
@@ -1124,6 +1124,10 @@ function Invoke-DiskRepair {
     }
 }
 
+function Invoke-StandardTweaks {
+    $null
+}
+
 function Show-MainMenu {
     # Variables
     $DisplayMenu = $true
@@ -1238,11 +1242,34 @@ function Show-CustomizationMenu {
     }    
 }
 
+function Invoke-Winfix {
+    # Variables
+    $URL = "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1"
+    $Script = "$env:TEMP\winfix.ps1"
+
+    # Download from repository
+    Invoke-WebRequest -Uri $URL -OutFile $Script
+
+    # Execute script
+    Start-Process "powershell.exe" -Wait -ArgumentList "-Command Set-ExecutionPolicy Bypass -Scope Process" -Verb RunAs
+    Start-Process "powershell.exe" -Wait -ArgumentList "-File $Script"
+}
+
 try {
-    if (-not ($Silent -or $IsModule)) {
+    # Early exit
+    if ($IsModule) {
+        return
+    }
+
+    # Run script based on environment
+    if ($Silent) {
+        Invoke-StandardTweaks
+    } elseif ($PSCommandPath) {
         Show-MainMenu
+    } else {
+        Invoke-Winfix
     }
 } catch {
-    $null
+    Write-Error "Something fatal happend: $_"
 }
 

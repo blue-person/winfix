@@ -5,6 +5,10 @@ Import-Module ".\modules\mods.psm1" -Force
 Import-Module ".\modules\performance.psm1" -Force
 
 # Functions
+function Invoke-StandardTweaks {
+    $null
+}
+
 function Show-MainMenu {
     # Variables
     $DisplayMenu = $true
@@ -119,11 +123,34 @@ function Show-CustomizationMenu {
     }    
 }
 
-# Show main menu
+function Invoke-Winfix {
+    # Variables
+    $URL = "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1"
+    $Script = "$env:TEMP\winfix.ps1"
+
+    # Download from repository
+    Invoke-WebRequest -Uri $URL -OutFile $Script
+
+    # Execute script
+    Start-Process "powershell.exe" -Wait -ArgumentList "-Command Set-ExecutionPolicy Bypass -Scope Process" -Verb RunAs
+    Start-Process "powershell.exe" -Wait -ArgumentList "-File $Script"
+}
+
+# Start program
 try {
-    if (-not ($Silent -or $IsModule)) {
+    # Early exit
+    if ($IsModule) {
+        return
+    }
+
+    # Run script based on environment
+    if ($Silent) {
+        Invoke-StandardTweaks
+    } elseif ($PSCommandPath) {
         Show-MainMenu
+    } else {
+        Invoke-Winfix
     }
 } catch {
-    $null
+    Write-Error "Something fatal happend: $_"
 }
