@@ -243,6 +243,7 @@ function Remove-ExplorerGallery {
             Write-Host 'Removing Home and Gallery from File Explorer!' -ForegroundColor Cyan
             Remove-RegistryKey -Key 'HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\$HomeGUID'
             Remove-RegistryKey -Key 'HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\$GalleryGUID'
+            Write-Host ''
             Pause
         "
     } catch {
@@ -1170,7 +1171,7 @@ function Show-MainMenu {
     # Variables
     $DisplayMenu = $true
     $WindowTitle = "Winfix Toolbox"
-    $MenuTitle = "Windows Tweaks & Fixes!" 
+    $MenuTitle = "Windows Fixer Toolbox!" 
     $MenuOptions = @(
         @{Name = "Essential Tweaks"; Description = "Basic tweaks for improved performance"},
         @{Name = "Advanced Tweaks"; Description = "Advanced tuning, but handle with caution"},
