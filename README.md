@@ -15,13 +15,13 @@ Now there's no need to dig through settings and click endlessly. Just run the sc
 ## Usage
 Winfix can be used by both standard and admin users. If you choose a setting that requires system-wide configurations, the tool will ask for admin permissions.
 
-### Online method (Recommended)
+#### Recommended method 🌐
 
 ```ps1
 irm "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1" | iex
 ```
 
-### Offline method
+#### Offline method 🖥️
 
 To execute the script locally, your computer must allow PowerShell scripts to run. You can enable this by executing the following command in an admin PowerShell session:
 
