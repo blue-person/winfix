@@ -1,15 +1,15 @@
 # Import modules
-Import-Module "..\modules\customization.psm1" -Force
-Import-Module "..\modules\menu.psm1" -Force
-Import-Module "..\modules\mods.psm1" -Force
-Import-Module "..\modules\performance.psm1" -Force
+Import-Module ".\modules\customization.psm1" -Force
+Import-Module ".\modules\menu.psm1" -Force
+Import-Module ".\modules\mods.psm1" -Force
+Import-Module ".\modules\performance.psm1" -Force
 
 # Functions
 function Show-MainMenu {
     # Variables
     $DisplayMenu = $true
     $WindowTitle = "Winfix Toolbox"
-    $MenuTitle = "Windows Tweaks & Fixes!" 
+    $MenuTitle = "Windows Fixer Toolbox!" 
     $MenuOptions = @(
         @{Name = "Essential Tweaks"; Description = "Basic tweaks for improved performance"},
         @{Name = "Advanced Tweaks"; Description = "Advanced tuning, but handle with caution"},
