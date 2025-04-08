@@ -1,5 +1,5 @@
 # Import modules
-Import-Module "../modules/core.psm1" -Force
+Import-Module ".\modules\core.psm1" -Force
 
 # Functions
 function Disable-BingSearch {

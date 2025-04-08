@@ -1,5 +1,5 @@
 # Import modules
-Import-Module "../modules/core.psm1" -Force
+Import-Module ".\modules\core.psm1" -Force
 
 # Functions
 function Set-DarkTheme {
@@ -86,6 +86,7 @@ function Remove-ExplorerGallery {
             Write-Host 'Removing Home and Gallery from File Explorer!' -ForegroundColor Cyan
             Remove-RegistryKey -Key 'HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\$HomeGUID'
             Remove-RegistryKey -Key 'HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\$GalleryGUID'
+            Write-Host ''
             Pause
         "
     } catch {
