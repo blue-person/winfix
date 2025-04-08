@@ -1248,7 +1248,6 @@ function Show-AdvancedMenu {
             (6) { Disable-AdobeServices; break }
             (7) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
             (8) { Enable-VerboseMode; break }
-            (8) { Invoke-EnableEncryption; break }
             (9) { $DisplayMenu = $false; break }
         }
     }
