@@ -5,10 +5,6 @@ Import-Module ".\modules\mods.psm1" -Force
 Import-Module ".\modules\performance.psm1" -Force
 
 # Functions
-function Invoke-StandardTweaks {
-    $null
-}
-
 function Show-MainMenu {
     # Variables
     $DisplayMenu = $true
@@ -139,14 +135,12 @@ function Invoke-Winfix {
 # Start program
 try {
     # Early exit
-    if ($IsModule) {
+    if ($Bypass) {
         return
     }
 
     # Run script based on environment
-    if ($Silent) {
-        Invoke-StandardTweaks
-    } elseif ($PSCommandPath) {
+    if ($PSCommandPath) {
         Show-MainMenu
     } else {
         Invoke-Winfix
