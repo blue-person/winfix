@@ -13,8 +13,7 @@ $Header = @"
 
 # Parameters
 param (
-    [switch]`$IsModule = `$false,
-    [switch]`$Silent = `$false
+    [switch]`$Bypass = `$false
 )
 
 # Functions
