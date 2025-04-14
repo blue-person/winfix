@@ -2,23 +2,92 @@
 Import-Module ".\modules\core.psm1" -Force
 
 # Functions
-function Disable-BingSearch {
-    # Structures
-    $Keys = @(
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer"; Name = "DisableSearchBoxSuggestions"; Type = "REG_DWORD"; Value = "1" },
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "BingSearchEnabled"; Type = "REG_DWORD"; Value = "0" },
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "CortanaConsent"; Type = "REG_DWORD"; Value = "0" },
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "SearchboxTaskbarMode"; Type = "REG_DWORD"; Value = "1" },
-        @{Path = "HKCU\Software\Policies\Microsoft\Windows\Explorer"; Name = "DisableSearchBoxSuggestions"; Type = "REG_DWORD"; Value = "1" }
+function Set-PowerPlan {
+    # Parameters
+    param (
+        [Parameter(Mandatory = $true)][string]$Plan,
+        $MonitorTimeout = 5,
+        $StandbyTimeout = 10
     )
 
-    # Edit registry keys
-    Write-Host "Disabling web results in search!" -ForegroundColor Cyan
-    foreach ($Key in $Keys) {
-        Set-RegistryKey -Path $Key.Path -Name $Key.Name -Type $Key.Type -Value $Key.Value
+    # Structures
+    $PowerPlans = @(
+        @{Name = "Low"; Original = "a1841308-3541-4fab-bc81-f71556f20b4a"; Installed = "56deaa71-83cb-4248-8fa6-e936f8abb2bf" },
+        @{Name = "Balanced"; Original = "381b4222-f694-41f0-9685-ff5bb260df2e"; Installed = "0ef180f5-2ba4-49cd-808c-299010093150" },
+        @{Name = "High"; Original = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"; Installed = "3cd31203-a89f-487f-982c-4595b4d4a4f2" },
+        @{Name = "Ultimate"; Original = "e9a42b02-d5df-448d-aa00-03f14749eb61"; Installed = "0549ff6e-575f-4148-a541-29a0a3c15dac" }
+    )
+
+    # Variables
+    $SelectedPlan = $PowerPlans | Where-Object { $_.Name -eq $Plan }
+    $OriginalGUID = $SelectedPlan.Original
+    $InstalledGUID = $SelectedPlan.Installed
+
+    # Execute as admin
+    try {
+        Invoke-ElevatedShell "
+            Write-Host 'Started tweaking power plan!' -ForegroundColor Cyan
+
+            # Restore power schemes
+            Write-Host 'Installing power schemes...'
+            powercfg -restoredefaultschemes #| Out-Null
+            powercfg -duplicatescheme $OriginalGUID $InstalledGUID | Out-Null
+
+            # Set high performance
+            Write-Host 'Setting $Plan Performance Mode...'
+            powercfg -setactive $InstalledGUID
+
+            # Change timeout options
+            Write-Host 'Changing power plan Settings...'
+            powercfg -hibernate off
+            powercfg -change disk-timeout-ac 1
+            powercfg -change disk-timeout-dc 0
+            powercfg -change monitor-timeout-ac $MonitorTimeout
+            powercfg -change monitor-timeout-dc $MonitorTimeout
+            powercfg -change standby-timeout-ac $StandbyTimeout
+            powercfg -change standby-timeout-dc $StandbyTimeout
+            Write-Host ''
+
+            # Wait to continue
+            Pause
+        "
     }
-    Write-Host ""
-    Pause
+    catch {
+        Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
+        Pause
+    }
+}
+
+function Set-IPv6Preferences {
+    # Parameters
+    param (
+        [Parameter(Mandatory = $true)][string]$Setting
+    )
+
+    # Structures
+    $Settings = @(
+        @{Name = "Default"; Value = "0" },
+        @{Name = "DisableIPv6"; Value = "255" },
+        @{Name = "DisableTeredo"; Value = "1" },
+        @{Name = "PreferIPv4"; Value = "32" }
+    )
+
+    # Variables
+    $Config = ($Settings | Where-Object { $_.Name -eq $Setting }).Value
+
+    # Modify IPv6 Preferences
+    try {
+        Invoke-ElevatedShell "
+            Write-Host 'Setting IPv6 preferences!' -ForegroundColor Cyan
+            Set-RegistryKey -Path 'HKLM\System\CurrentControlSet\Tcpip6\Parameters' -Name 'DisabledComponents' -Type 'REG_DWORD' -Value $Config
+            Write-Host ''
+            Pause
+        "
+    }
+    catch {
+        Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
+        Pause
+    }
 }
 
 function Disable-Telemetry {
@@ -159,22 +228,6 @@ function Remove-MicrosoftApps {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
-}
-
-function Disable-AppxProcesses {
-    # Structures
-    $Keys = @(
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"; Name = "GlobalUserDisabled"; Type = "REG_DWORD"; Value = "1" },
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "BackgroundAppGlobalToggle"; Type = "REG_DWORD"; Value = "0" }
-    )
-
-    # Edit registry keys
-    Write-Host "Stopping AppX packages from running in the background!" -ForegroundColor Cyan
-    foreach ($Key in $Keys) {
-        Set-RegistryKey -Path $Key.Path -Name $Key.Name -Type $Key.Type -Value $Key.Value
-    }
-    Write-Host ""
-    Pause
 }
 
 function Disable-SystemProcesses {
@@ -543,38 +596,6 @@ function Disable-AdobeServices {
             foreach (`$Service in `$Services) {
                 Set-ServiceStartup -Name `$Service.Name -Type `$Service.Type
             }
-            Write-Host ''
-            Pause
-        "
-    }
-    catch {
-        Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
-    }
-}
-
-function Set-IPv6Preferences {
-    # Parameters
-    param (
-        [Parameter(Mandatory = $true)][string]$Setting
-    )
-
-    # Structures
-    $Settings = @(
-        @{Name = "Default"; Value = "0" },
-        @{Name = "DisableIPv6"; Value = "255" },
-        @{Name = "DisableTeredo"; Value = "1" },
-        @{Name = "PreferIPv4"; Value = "32" }
-    )
-
-    # Variables
-    $Config = ($Settings | Where-Object { $_.Name -eq $Setting }).Value
-
-    # Modify IPv6 Preferences
-    try {
-        Invoke-ElevatedShell "
-            Write-Host 'Setting IPv6 preferences!' -ForegroundColor Cyan
-            Set-RegistryKey -Path 'HKLM\System\CurrentControlSet\Tcpip6\Parameters' -Name 'DisabledComponents' -Type 'REG_DWORD' -Value $Config
             Write-Host ''
             Pause
         "

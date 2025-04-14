@@ -56,6 +56,7 @@ function Set-ExplorerPreferences {
         @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "HideFileExt"; Type = "REG_DWORD"; Value = "0" },
         @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "LaunchTo"; Type = "REG_DWORD"; Value = "1" },
         @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "ShowTaskViewButton"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarAl"; Type = "REG_DWORD"; Value = "0" },
         @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarDa"; Type = "REG_DWORD"; Value = "0" },
         @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings"; Name = "TaskbarEndTask"; Type = "REG_DWORD"; Value = "1" },
         @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager"; Name = "EnthusiastMode"; Type = "REG_DWORD"; Value = "1" },
