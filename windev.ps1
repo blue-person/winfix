@@ -120,7 +120,7 @@ function Show-CustomizationMenu {
 }
 
 function Invoke-Winfix {
-    & pwsh -ExecutionPolicy Bypass -File $(
+    & powershell -ExecutionPolicy Bypass -File $(
         $File = "$env:TEMP\winfix.ps1";
         Invoke-WebRequest -Uri "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1" -OutFile $File;
         $File
