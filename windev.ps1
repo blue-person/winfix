@@ -131,12 +131,12 @@ function Show-AdvancedMenu {
             (0) { Set-PowerPlan -Plan "Ultimate"; break }
             (1) { Disable-Telemetry; break }
             (2) { Remove-MicrosoftApps; break }
-            (4) { Disable-SystemProcesses; break }
-            (5) { Disable-SystemServices; break }
-            (6) { Disable-AdobeServices; break }
-            (7) { Enable-VerboseMode; break }
-            (8) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
-            (9) { $DisplayMenu = $false; break }
+            (3) { Disable-SystemProcesses; break }
+            (4) { Disable-SystemServices; break }
+            (5) { Disable-AdobeServices; break }
+            (6) { Enable-VerboseMode; break }
+            (7) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
+            (8) { $DisplayMenu = $false; break }
         }
     }
 }
