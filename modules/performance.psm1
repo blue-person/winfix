@@ -5,21 +5,21 @@ Import-Module ".\modules\core.psm1" -Force
 function Set-PerformanceDisplay {
     # Structures
     $Keys = @(
-        @{Path = "HKCU\Control Panel\Desktop"; Name = "DragFullWindows"; Type = "REG_SZ"; Value = "0"},
-        @{Path = "HKCU\Control Panel\Desktop"; Name = "MenuShowDelay"; Type = "REG_SZ"; Value = "100"},
-        @{Path = "HKCU\Control Panel\Desktop"; Name = "UserPreferencesMask"; Type = "REG_BINARY"; Value = "9032078010000000"},
-        @{Path = "HKCU\Control Panel\Desktop\WindowMetrics"; Name = "MinAnimate"; Type = "REG_SZ"; Value = "0"},
-        @{Path = "HKCU\Control Panel\Keyboard"; Name = "KeyboardDelay"; Type = "REG_DWORD"; Value = "0"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "ListviewAlphaSelect"; Type = "REG_DWORD"; Value = "0"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "ListviewShadow"; Type = "REG_DWORD"; Value = "1"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "ShowTaskViewButton"; Type = "REG_DWORD"; Value = "0"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarAnimations"; Type = "REG_DWORD"; Value = "0"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarDa"; Type = "REG_DWORD"; Value = "0"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarMn"; Type = "REG_DWORD"; Value = "0"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "VisualFXSetting"; Type = "REG_DWORD"; Value = "3"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "SearchboxTaskbarMode"; Type = "REG_DWORD"; Value = "1"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"; Name = "EnableTransparency"; Type = "REG_DWORD"; Value = "0"},
-        @{Path = "HKCU\Software\Microsoft\Windows\DWM"; Name = "EnableAeroPeek"; Type = "REG_DWORD"; Value = "0"}
+        @{Path = "HKCU\Control Panel\Desktop"; Name = "DragFullWindows"; Type = "REG_SZ"; Value = "0" },
+        @{Path = "HKCU\Control Panel\Desktop"; Name = "MenuShowDelay"; Type = "REG_SZ"; Value = "100" },
+        @{Path = "HKCU\Control Panel\Desktop"; Name = "UserPreferencesMask"; Type = "REG_BINARY"; Value = "9032078010000000" },
+        @{Path = "HKCU\Control Panel\Desktop\WindowMetrics"; Name = "MinAnimate"; Type = "REG_SZ"; Value = "0" },
+        @{Path = "HKCU\Control Panel\Keyboard"; Name = "KeyboardDelay"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "ListviewAlphaSelect"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "ListviewShadow"; Type = "REG_DWORD"; Value = "1" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "ShowTaskViewButton"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarAnimations"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarDa"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "TaskbarMn"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"; Name = "VisualFXSetting"; Type = "REG_DWORD"; Value = "3" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "SearchboxTaskbarMode"; Type = "REG_DWORD"; Value = "1" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"; Name = "EnableTransparency"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\DWM"; Name = "EnableAeroPeek"; Type = "REG_DWORD"; Value = "0" }
     )
 
     # Edit registry keys
@@ -61,7 +61,8 @@ function Set-PerformanceDisplay {
             Write-Host ''
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
@@ -70,17 +71,17 @@ function Set-PerformanceDisplay {
 function Set-PowerPlan {
     # Parameters
     param (
-        [Parameter(Mandatory=$true)][string]$Plan,
+        [Parameter(Mandatory = $true)][string]$Plan,
         $MonitorTimeout = 5,
         $StandbyTimeout = 10
     )
 
     # Structures
     $PowerPlans = @(
-        @{Name = "Low"; Original = "a1841308-3541-4fab-bc81-f71556f20b4a"; Installed = "56deaa71-83cb-4248-8fa6-e936f8abb2bf"},
-        @{Name = "Balanced"; Original = "381b4222-f694-41f0-9685-ff5bb260df2e"; Installed = "0ef180f5-2ba4-49cd-808c-299010093150"},
-        @{Name = "High"; Original = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"; Installed = "3cd31203-a89f-487f-982c-4595b4d4a4f2"},
-        @{Name = "Ultimate"; Original = "e9a42b02-d5df-448d-aa00-03f14749eb61"; Installed = "0549ff6e-575f-4148-a541-29a0a3c15dac"}
+        @{Name = "Low"; Original = "a1841308-3541-4fab-bc81-f71556f20b4a"; Installed = "56deaa71-83cb-4248-8fa6-e936f8abb2bf" },
+        @{Name = "Balanced"; Original = "381b4222-f694-41f0-9685-ff5bb260df2e"; Installed = "0ef180f5-2ba4-49cd-808c-299010093150" },
+        @{Name = "High"; Original = "8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c"; Installed = "3cd31203-a89f-487f-982c-4595b4d4a4f2" },
+        @{Name = "Ultimate"; Original = "e9a42b02-d5df-448d-aa00-03f14749eb61"; Installed = "0549ff6e-575f-4148-a541-29a0a3c15dac" }
     )
 
     # Variables
@@ -116,7 +117,8 @@ function Set-PowerPlan {
             # Wait to continue
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
@@ -146,13 +148,14 @@ function Invoke-DiskRepair {
             # Wait to continue
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
- }
+}
  
- function Invoke-DiskCleanup {
+function Invoke-DiskCleanup {
     # Clean Manager
     Write-Host "(1/4) Using Clean Manager to perform cleanup operations!" -ForegroundColor Cyan
     Write-Host "Waiting for process to finish..."
@@ -178,7 +181,8 @@ function Invoke-DiskRepair {
             Write-Host ''
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }

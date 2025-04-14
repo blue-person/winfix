@@ -5,11 +5,11 @@ Import-Module ".\modules\core.psm1" -Force
 function Disable-BingSearch {
     # Structures
     $Keys = @(
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer"; Name = "DisableSearchBoxSuggestions"; Type = "REG_DWORD"; Value = "1"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "BingSearchEnabled"; Type = "REG_DWORD"; Value = "0"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "CortanaConsent"; Type = "REG_DWORD"; Value = "0"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "SearchboxTaskbarMode"; Type = "REG_DWORD"; Value = "1"},
-        @{Path = "HKCU\Software\Policies\Microsoft\Windows\Explorer"; Name = "DisableSearchBoxSuggestions"; Type = "REG_DWORD"; Value = "1"}
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer"; Name = "DisableSearchBoxSuggestions"; Type = "REG_DWORD"; Value = "1" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "BingSearchEnabled"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "CortanaConsent"; Type = "REG_DWORD"; Value = "0" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "SearchboxTaskbarMode"; Type = "REG_DWORD"; Value = "1" },
+        @{Path = "HKCU\Software\Policies\Microsoft\Windows\Explorer"; Name = "DisableSearchBoxSuggestions"; Type = "REG_DWORD"; Value = "1" }
     )
 
     # Edit registry keys
@@ -24,25 +24,25 @@ function Disable-BingSearch {
 function Disable-Telemetry {
     # Structures
     $Keys = @(
-        @{Path = "HKCU\Software\Microsoft\Siuf\Rules"; Name = "NumberOfSIUFInPeriod"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "ContentDeliveryState"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "OemPreInstalledAppsEnabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "PreInstalledAppsEnabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "PreInstalledAppsEverEnabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SilentInstalledAppsEnabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SubscribedContent-338387Enabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SubscribedContent-338388Enabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SubscribedContent-338389Enabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SubscribedContent-353698Enabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SystemPaneSuggestionsEnabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "LaunchTo"; Value = "1"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "ShowTaskViewButton"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People"; Name = "PeopleBand"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Feeds"; Name = "ShellFeedsTaskbarViewMode"; Value = "2"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"; Name = "HideSCAMeetNow"; Value = "1"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement"; Name = "ScoobeSystemSettingEnabled"; Value = "0"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Policies\Microsoft\Windows\CloudContent"; Name = "DisableTailoredExperiencesWithDiagnosticData"; Value = "1"; Type = "REG_DWORD"},
-        @{Path = "HKCU\Software\Policies\Microsoft\Windows\Windows Feeds"; Name = "EnableFeeds"; Value = "0"; Type = "REG_DWORD"}
+        @{Path = "HKCU\Software\Microsoft\Siuf\Rules"; Name = "NumberOfSIUFInPeriod"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "ContentDeliveryState"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "OemPreInstalledAppsEnabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "PreInstalledAppsEnabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "PreInstalledAppsEverEnabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SilentInstalledAppsEnabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SubscribedContent-338387Enabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SubscribedContent-338388Enabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SubscribedContent-338389Enabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SubscribedContent-353698Enabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; Name = "SystemPaneSuggestionsEnabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "LaunchTo"; Value = "1"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"; Name = "ShowTaskViewButton"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People"; Name = "PeopleBand"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Feeds"; Name = "ShellFeedsTaskbarViewMode"; Value = "2"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"; Name = "HideSCAMeetNow"; Value = "1"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement"; Name = "ScoobeSystemSettingEnabled"; Value = "0"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Policies\Microsoft\Windows\CloudContent"; Name = "DisableTailoredExperiencesWithDiagnosticData"; Value = "1"; Type = "REG_DWORD" },
+        @{Path = "HKCU\Software\Policies\Microsoft\Windows\Windows Feeds"; Name = "EnableFeeds"; Value = "0"; Type = "REG_DWORD" }
     )
 
     # Edit registry keys
@@ -105,7 +105,8 @@ function Disable-Telemetry {
             Write-Host ''
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
@@ -153,7 +154,8 @@ function Remove-MicrosoftApps {
             Write-Host ''
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
@@ -162,8 +164,8 @@ function Remove-MicrosoftApps {
 function Disable-AppxProcesses {
     # Structures
     $Keys = @(
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"; Name = "GlobalUserDisabled"; Type = "REG_DWORD"; Value = "1"},
-        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "BackgroundAppGlobalToggle"; Type = "REG_DWORD"; Value = "0"}
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"; Name = "GlobalUserDisabled"; Type = "REG_DWORD"; Value = "1" },
+        @{Path = "HKCU\Software\Microsoft\Windows\CurrentVersion\Search"; Name = "BackgroundAppGlobalToggle"; Type = "REG_DWORD"; Value = "0" }
     )
 
     # Edit registry keys
@@ -178,10 +180,10 @@ function Disable-AppxProcesses {
 function Disable-SystemProcesses {
     # Variables
     $Keys = @(
-        @{Path = 'HKCU\System\GameConfigStore'; Name = 'GameDVR_EFSEFeatureFlags'; Value = '0'; Type = 'REG_DWORD'},
-        @{Path = 'HKCU\System\GameConfigStore'; Name = 'GameDVR_Enabled'; Value = '0'; Type = 'REG_DWORD'},
-        @{Path = 'HKCU\System\GameConfigStore'; Name = 'GameDVR_FSEBehaviorGameDVR_FSEBehavior'; Value = '2'; Type = 'REG_DWORD'},
-        @{Path = 'HKCU\System\GameConfigStore'; Name = 'GameDVR_HonorUserFSEBehaviorMode'; Value = '1'; Type = 'REG_DWORD'}
+        @{Path = 'HKCU\System\GameConfigStore'; Name = 'GameDVR_EFSEFeatureFlags'; Value = '0'; Type = 'REG_DWORD' },
+        @{Path = 'HKCU\System\GameConfigStore'; Name = 'GameDVR_Enabled'; Value = '0'; Type = 'REG_DWORD' },
+        @{Path = 'HKCU\System\GameConfigStore'; Name = 'GameDVR_FSEBehaviorGameDVR_FSEBehavior'; Value = '2'; Type = 'REG_DWORD' },
+        @{Path = 'HKCU\System\GameConfigStore'; Name = 'GameDVR_HonorUserFSEBehaviorMode'; Value = '1'; Type = 'REG_DWORD' }
     )
 
     # Edit registry keys
@@ -215,7 +217,8 @@ function Disable-SystemProcesses {
             Write-Host ''
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
@@ -511,7 +514,8 @@ function Disable-SystemServices {
             Write-Host ''
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
@@ -542,7 +546,8 @@ function Disable-AdobeServices {
             Write-Host ''
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
@@ -551,15 +556,15 @@ function Disable-AdobeServices {
 function Set-IPv6Preferences {
     # Parameters
     param (
-        [Parameter(Mandatory=$true)][string]$Setting
+        [Parameter(Mandatory = $true)][string]$Setting
     )
 
     # Structures
     $Settings = @(
-        @{Name = "Default"; Value = "0"},
-        @{Name = "DisableIPv6"; Value = "255"},
-        @{Name = "DisableTeredo"; Value = "1"},
-        @{Name = "PreferIPv4"; Value = "32"}
+        @{Name = "Default"; Value = "0" },
+        @{Name = "DisableIPv6"; Value = "255" },
+        @{Name = "DisableTeredo"; Value = "1" },
+        @{Name = "PreferIPv4"; Value = "32" }
     )
 
     # Variables
@@ -573,7 +578,8 @@ function Set-IPv6Preferences {
             Write-Host ''
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }
@@ -599,7 +605,8 @@ function Enable-VerboseMode {
             Write-Host ''
             Pause
         "
-    } catch {
+    }
+    catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
         Pause
     }

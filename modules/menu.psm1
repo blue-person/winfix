@@ -5,8 +5,8 @@ Import-Module ".\modules\core.psm1" -Force
 function Show-Menu {
     # Parameters
     param (
-        [Parameter(Mandatory=$true)][string]$Title,
-        [Parameter(Mandatory=$true)][array]$Options
+        [Parameter(Mandatory = $true)][string]$Title,
+        [Parameter(Mandatory = $true)][array]$Options
     )
 
     # Variables
@@ -25,9 +25,10 @@ function Show-Menu {
 
         # Highlight option
         for ($i = 0; $i -le $MaxValue; $i++) {
-            if ($i -eq $CurrentIndex){
+            if ($i -eq $CurrentIndex) {
                 Write-Host -BackgroundColor Cyan -ForegroundColor Black "[ $($Options[$i].Name) ]"
-            } else {
+            }
+            else {
                 Write-Host "  $($Options[$i].Name)  "
             }
         }
@@ -47,9 +48,10 @@ function Show-Menu {
 
             ([ConsoleKey]::UpArrow) {
                 Clear-Host
-                if ($CurrentIndex -eq 0){
+                if ($CurrentIndex -eq 0) {
                     $CurrentIndex = $MaxValue
-                } else {
+                }
+                else {
                     $CurrentIndex -= 1
                 }
                 break
@@ -57,14 +59,15 @@ function Show-Menu {
 
             ([ConsoleKey]::DownArrow) {
                 Clear-Host
-                if ($CurrentIndex -eq $MaxValue){
+                if ($CurrentIndex -eq $MaxValue) {
                     $CurrentIndex = 0
-                } else {
+                }
+                else {
                     $CurrentIndex += 1
                 }
                 break
             }
-            Default{
+            Default {
                 Clear-Host
             }
         }
