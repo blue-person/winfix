@@ -14,8 +14,8 @@ function Show-MainMenu {
     $MenuOptions = @(
         @{Name = "Maintenance Settings"; Description = "Settings for basic maintenance on the device" },
         @{Name = "Customization Settings"; Description = "Some options to customize Windows" },
-        @{Name = "Essential Tweaks"; Description = "Basic tweaks for improved performance" },
-        @{Name = "Advanced Tweaks"; Description = "Advanced tuning, but handle with caution" },
+        @{Name = "Essential Settings"; Description = "Basic tweaks for improved performance" },
+        @{Name = "Advanced Settings"; Description = "Advanced tuning, but handle with caution" },
         @{Name = "Exit"; Description = "Close toolbox" }
     )
 
