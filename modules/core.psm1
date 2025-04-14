@@ -44,7 +44,7 @@ function Invoke-ElevatedShell {
     }
     else {
         # Start a elevated powershell and run the script
-        Start-Process -FilePath "powershell.exe" -Wait -ArgumentList @(
+        Start-Process powershell -Wait -ArgumentList @(
             "-NoProfile",
             "-NoLogo",
             "-ExecutionPolicy Bypass",
