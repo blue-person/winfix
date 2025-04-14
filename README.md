@@ -13,12 +13,14 @@ This toolbox is a mix of Windows tasks I like to run on every system I use. It�
 Now there's no need to dig through settings and click endlessly. Just run the script, pull up the menu, and set up your system the way you want.
 
 ## Usage
-Winfix can be used by both standard and admin users. If you choose a setting that requires system-wide configurations, the tool will ask for admin permissions.
+Winfix is accessible to both standard and administrative users. If a selected setting requires system-wide changes, the tool will prompt you to grant administrative permissions.
+
+To use this tool, simply launch PowerShell and choose one of the following methods:
 
 #### Recommended method ⚡
 
 ```ps1
-irm "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1" | iex
+& pwsh -ExecutionPolicy Bypass -File $($File = "$env:TEMP\winfix.ps1"; iwr -Uri "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1" -OutFile $File; $File)
 ```
 
 #### Offline method 🖥️
