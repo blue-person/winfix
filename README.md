@@ -20,7 +20,7 @@ To use this tool, simply launch PowerShell and choose one of the following metho
 #### Recommended method ⚡
 
 ```ps1
-& pwsh -ExecutionPolicy Bypass -File $($File = "$env:TEMP\winfix.ps1"; iwr -Uri "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1" -OutFile $File; $File)
+& powershell -ExecutionPolicy Bypass -File $($File = "$env:TEMP\winfix.ps1"; iwr -Uri "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1" -OutFile $File; $File)
 ```
 
 #### Offline method 🖥️
