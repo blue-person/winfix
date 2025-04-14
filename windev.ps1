@@ -1,5 +1,6 @@
 # Import modules
 Import-Module ".\modules\customization.psm1" -Force
+Import-Module ".\modules\maintenance.psm1" -Force
 Import-Module ".\modules\menu.psm1" -Force
 Import-Module ".\modules\mods.psm1" -Force
 Import-Module ".\modules\performance.psm1" -Force
@@ -11,9 +12,10 @@ function Show-MainMenu {
     $WindowTitle = "Winfix Toolbox"
     $MenuTitle = "Windows Fixer Toolbox!" 
     $MenuOptions = @(
+        @{Name = "Maintenance Settings"; Description = "Settings for basic maintenance on the device" },
+        @{Name = "Customization Settings"; Description = "Some options to customize Windows" },
         @{Name = "Essential Tweaks"; Description = "Basic tweaks for improved performance" },
         @{Name = "Advanced Tweaks"; Description = "Advanced tuning, but handle with caution" },
-        @{Name = "Customization Options"; Description = "Some options to customize Windows" },
         @{Name = "Exit"; Description = "Close toolbox" }
     )
 
@@ -24,72 +26,34 @@ function Show-MainMenu {
     while ($DisplayMenu) {
         $UserSelection = Show-Menu -Title $MenuTitle -Options $MenuOptions
         switch ($UserSelection) {
-            (0) { Show-EssentialsMenu; break }
-            (1) { Show-AdvancedMenu; break }
-            (2) { Show-CustomizationMenu; break }
-            (3) { Set-WindowTitle "PowerShell"; $DisplayMenu = $false; break }
+            (0) { Show-MaintenanceMenu; break }
+            (1) { Show-CustomizationMenu; break }
+            (2) { Show-EssentialsMenu; break }
+            (3) { Show-AdvancedMenu; break }
+            (4) { Set-WindowTitle "PowerShell"; $DisplayMenu = $false; break }
         }
     }
 }
 
-function Show-EssentialsMenu {
+function Show-MaintenanceMenu {
     # Variables
     $DisplayMenu = $true
-    $MenuTitle = "Essentials Tweaks"
+    $MenuTitle = "Maintenance Options"
     $MenuOptions = @(
-        @{Name = "Set High Power Plan"; Description = "Set the power plan to high performance" },
-        @{Name = "Disable Bing Search"; Description = "Disable Bing integration in Windows Search" },
-        @{Name = "Reduce VFX"; Description = "Configure the system appearance for better performance" },
+        @{Name = "Create Checkpoint"; Description = "Do a system checkpoint in case a revert is needed" },
         @{Name = "Clean Drive"; Description = "Cleanup unnecessary files, but may take some time" },
         @{Name = "Repair Drive"; Description = "Repair the current drive, but may take some time" },
         @{Name = "Return to main menu"; Description = "Close current menu" }
     )
-
+    
     # Loop to keep the menu active
     while ($DisplayMenu) {
         $UserSelection = Show-Menu -Title $MenuTitle -Options $MenuOptions
         switch ($UserSelection) {
-           (0) { Set-PowerPlan -Plan "High"; break }
-           (1) { Disable-BingSearch; break }
-           (2) { Set-PerformanceDisplay; break }
-           (3) { Invoke-DiskCleanup; break }
-           (4) { Invoke-DiskRepair; break }
-           (5) { $DisplayMenu = $false; break }
-        }
-    }
-}
-
-function Show-AdvancedMenu {
-    # Variables
-    $DisplayMenu = $true
-    $MenuTitle = "Advanced Tweaks"
-    $MenuOptions = @(
-        @{Name = "Set Ultimate Power Plan"; Description = "Set the power plan to ultimate performance" },
-        @{Name = "Disable Telemetry"; Description = "Manage some settings to stop telemetry" },
-        @{Name = "Remove Microsoft Apps"; Description = "Remove bloatware such as Skype and Bing News" },
-        @{Name = "Disable AppX Processes"; Description = "Disable Microsoft Store apps from running in the background" },
-        @{Name = "Disable Non-Essential Processes"; Description = "Disable processes such as GameDVR and Consumer Features" },
-        @{Name = "Disable Non-Essential Services"; Description = "Set some services to start on demand rather than on startup" },
-        @{Name = "Disable Adobe Services"; Description = "Manage Adobe, Adobe Desktop, and Acrobat Updates services" },
-        @{Name = "Enable OS Verbose Mode"; Description = "Allow detailed messages during the login and BSOD process" },
-        @{Name = "Prefer IPv4 over IPv6"; Description = "Prefer IPv4 over IPv6 when possible" },
-        @{Name = "Return to main menu"; Description = "Close current menu" }
-    )
- 
-    # Loop to keep the menu active
-    while ($DisplayMenu) {
-        $UserSelection = Show-Menu -Title $MenuTitle -Options $MenuOptions
-        switch ($UserSelection) {
-            (0) { Set-PowerPlan -Plan "Ultimate"; break }
-            (1) { Disable-Telemetry; break }
-            (2) { Remove-MicrosoftApps; break }
-            (3) { Disable-AppxProcesses; break }
-            (4) { Disable-SystemProcesses; break }
-            (5) { Disable-SystemServices; break }
-            (6) { Disable-AdobeServices; break }
-            (7) { Enable-VerboseMode; break }
-            (8) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
-            (9) { $DisplayMenu = $false; break }
+            (0) { Invoke-SystemRestore; break }
+            (1) { Invoke-DiskCleanup; break }
+            (2) { Invoke-DiskRepair; break }
+            (3) { $DisplayMenu = $false; break }
         }
     }
 }
@@ -119,8 +83,66 @@ function Show-CustomizationMenu {
     }    
 }
 
+function Show-EssentialsMenu {
+    # Variables
+    $DisplayMenu = $true
+    $MenuTitle = "Essentials Tweaks"
+    $MenuOptions = @(
+        @{Name = "Set High Power Plan"; Description = "Set the power plan to high performance" },
+        @{Name = "Reduce VFX"; Description = "Configure the system appearance for better performance" },
+        @{Name = "Disable Bing Search"; Description = "Disable Bing integration in Windows Search" },
+        @{Name = "Disable AppX Processes"; Description = "Disable Microsoft Store apps from running in the background" },
+        @{Name = "Return to main menu"; Description = "Close current menu" }
+    )
+
+    # Loop to keep the menu active
+    while ($DisplayMenu) {
+        $UserSelection = Show-Menu -Title $MenuTitle -Options $MenuOptions
+        switch ($UserSelection) {
+           (0) { Set-PowerPlan -Plan "High"; break }
+           (1) { Set-PerformanceDisplay; break }
+           (2) { Disable-BingSearch; break }
+           (3) { Disable-AppxProcesses; break }
+           (4) { $DisplayMenu = $false; break }
+        }
+    }
+}
+
+function Show-AdvancedMenu {
+    # Variables
+    $DisplayMenu = $true
+    $MenuTitle = "Advanced Tweaks"
+    $MenuOptions = @(
+        @{Name = "Set Ultimate Power Plan"; Description = "Set the power plan to ultimate performance" },
+        @{Name = "Disable Telemetry"; Description = "Manage some settings to stop telemetry" },
+        @{Name = "Remove Microsoft Apps"; Description = "Remove bloatware such as Skype and Bing News" },
+        @{Name = "Disable Non-Essential Processes"; Description = "Disable processes such as GameDVR and Consumer Features" },
+        @{Name = "Disable Non-Essential Services"; Description = "Set some services to start on demand rather than on startup" },
+        @{Name = "Disable Adobe Services"; Description = "Manage Adobe, Adobe Desktop, and Acrobat Updates services" },
+        @{Name = "Enable OS Verbose Mode"; Description = "Allow detailed messages during the login and BSOD process" },
+        @{Name = "Prefer IPv4 over IPv6"; Description = "Prefer IPv4 over IPv6 when possible" },
+        @{Name = "Return to main menu"; Description = "Close current menu" }
+    )
+ 
+    # Loop to keep the menu active
+    while ($DisplayMenu) {
+        $UserSelection = Show-Menu -Title $MenuTitle -Options $MenuOptions
+        switch ($UserSelection) {
+            (0) { Set-PowerPlan -Plan "Ultimate"; break }
+            (1) { Disable-Telemetry; break }
+            (2) { Remove-MicrosoftApps; break }
+            (4) { Disable-SystemProcesses; break }
+            (5) { Disable-SystemServices; break }
+            (6) { Disable-AdobeServices; break }
+            (7) { Enable-VerboseMode; break }
+            (8) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
+            (9) { $DisplayMenu = $false; break }
+        }
+    }
+}
+
 function Invoke-Winfix {
-    & powershell -ExecutionPolicy Bypass -File $(
+    & pwsh -ExecutionPolicy Bypass -File $(
         $File = "$env:TEMP\winfix.ps1";
         Invoke-WebRequest -Uri "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1" -OutFile $File;
         $File
