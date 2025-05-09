@@ -3,7 +3,8 @@ $OutputContent = ""
 $RootDir = Split-Path (Get-Location) -Parent
 $ScriptsDir = Join-Path $RootDir "scripts"
 $ModulesDir = Join-Path $RootDir "modules"
-$OutputFile = Join-Path $RootDir "releases\winfix.ps1"
+$OutputDir = Join-Path $RootDir "releases"
+$OutputFile = Join-Path $OutputDir "winfix.ps1"
 $Header = @"
 ################################################################################################################
 ###                                                                                                          ###
@@ -48,6 +49,12 @@ function Get-FolderContent {
 # Initial message
 Clear-Host
 Write-Host "Started process!" -ForegroundColor Cyan
+
+# Create directory if it doesn't exists
+if (-Not (Test-Path $OutputDir)) {
+    Write-Host "Creating output directory..."
+    New-Item -ItemType Directory -Path $OutputDir | Out-Null
+}
 
 # Remove previous file
 if (Get-Item $OutputFile -ErrorAction SilentlyContinue) {
