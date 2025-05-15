@@ -40,21 +40,21 @@ function Set-PowerPlan {
             # Change timeout options
             Write-Host 'Changing power plan Settings...'
             powercfg -hibernate off
-            powercfg -change disk-timeout-ac 1
-            powercfg -change disk-timeout-dc 0
-            powercfg -change monitor-timeout-ac $MonitorTimeout
+            powercfg -change disk-timeout-dc 1
+            powercfg -change disk-timeout-ac 0
             powercfg -change monitor-timeout-dc $MonitorTimeout
-            powercfg -change standby-timeout-ac $StandbyTimeout
+            powercfg -change monitor-timeout-ac $MonitorTimeout
             powercfg -change standby-timeout-dc $StandbyTimeout
+            powercfg -change standby-timeout-ac $StandbyTimeout
             Write-Host ''
 
             # Wait to continue
-            Pause
+            Exit-Process
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
+        Exit-Process
     }
 }
 
@@ -81,12 +81,12 @@ function Set-IPv6Preferences {
             Write-Host 'Setting IPv6 preferences!' -ForegroundColor Cyan
             Set-RegistryKey -Path 'HKLM\System\CurrentControlSet\Tcpip6\Parameters' -Name 'DisabledComponents' -Type 'REG_DWORD' -Value $Config
             Write-Host ''
-            Pause
+            Exit-Process
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
+        Exit-Process
     }
 }
 
@@ -172,12 +172,12 @@ function Disable-Telemetry {
                 Set-TaskState -Path `$Task.Path -Name `$Task.Name -State `$Task.State
             }
             Write-Host ''
-            Pause
+            Exit-Process
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
+        Exit-Process
     }
 }
 
@@ -221,12 +221,12 @@ function Remove-MicrosoftApps {
                 Remove-App -Name `$App.Name -Type `$App.Type
             }
             Write-Host ''
-            Pause
+            Exit-Process
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
+        Exit-Process
     }
 }
 
@@ -268,12 +268,12 @@ function Disable-SystemProcesses {
                 Set-RegistryKey -Path `$Key.Path -Name `$Key.Name -Type `$Key.Type -Value `$Key.Value
             }
             Write-Host ''
-            Pause
+            Exit-Process
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
+        Exit-Process
     }
 }
 
@@ -565,12 +565,12 @@ function Disable-SystemServices {
                 Set-ServiceStartup -Name `$Service.Name -Type `$Service.Type
             }
             Write-Host ''
-            Pause
+            Exit-Process
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
+        Exit-Process
     }
 }
 
@@ -597,12 +597,12 @@ function Disable-AdobeServices {
                 Set-ServiceStartup -Name `$Service.Name -Type `$Service.Type
             }
             Write-Host ''
-            Pause
+            Exit-Process
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
+        Exit-Process
     }
 }
 
@@ -624,11 +624,11 @@ function Enable-VerboseMode {
                 Set-RegistryKey -Path `$Key.Path -Name `$Key.Name -Type `$Key.Type -Value `$Key.Value
             }
             Write-Host ''
-            Pause
+            Exit-Process
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
+        Exit-Process
     }
 }

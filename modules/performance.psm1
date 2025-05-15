@@ -18,7 +18,7 @@ function Disable-BingSearch {
         Set-RegistryKey -Path $Key.Path -Name $Key.Name -Type $Key.Type -Value $Key.Value
     }
     Write-Host ""
-    Pause
+    Exit-Process
 }
 
 function Disable-AppxProcesses {
@@ -34,7 +34,7 @@ function Disable-AppxProcesses {
         Set-RegistryKey -Path $Key.Path -Name $Key.Name -Type $Key.Type -Value $Key.Value
     }
     Write-Host ""
-    Pause
+    Exit-Process
 }
 
 function Set-PerformanceDisplay {
@@ -94,11 +94,11 @@ function Set-PerformanceDisplay {
                 Set-RegistryKey -Path `$Key.Path -Name `$Key.Name -Type `$Key.Type -Value `$Key.Value
             }
             Write-Host ''
-            Pause
+            Exit-Process
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Pause
+        Exit-Process
     }
 }
