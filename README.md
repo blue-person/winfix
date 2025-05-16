@@ -20,19 +20,13 @@ To use this tool, simply launch PowerShell and choose one of the following metho
 #### Recommended method ⚡
 
 ```ps1
-& powershell -ExecutionPolicy Bypass -File $($File = "$env:TEMP\winfix.ps1"; iwr -Uri "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1" -OutFile $File; $File)
+iwr "https://github.com/blue-person/winfix/releases/latest/download/winfix.ps1" | iex
 ```
 
 #### Offline method 🖥️
 
-To execute the script locally, your computer must allow PowerShell scripts to run. You can enable this by executing the following command in an admin PowerShell session:
+To execute the script locally, you must allow PowerShell scripts to run. You can enable this by executing the following command in a standard PowerShell session:
 
 ```ps1
-Set-ExecutionPolicy Bypass
-```
-
-Once this setting is applied, you can download the script and run the following command in either a standard or admin PowerShell session:
-
-```ps1
-.\winfix.ps1
+& powershell -ExecutionPolicy Bypass -File winfix.ps1
 ```
