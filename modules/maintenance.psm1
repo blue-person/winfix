@@ -14,7 +14,7 @@ function Invoke-SystemRestore {
                 Enable-ComputerRestore -Drive '$env:SystemDrive'
             } catch {
                 Write-Host 'An error occurred while enabling System Restore: $_'
-                Exit-Process
+                Pause
             }
 
             # Check if the creation frequency value exists
@@ -31,7 +31,7 @@ function Invoke-SystemRestore {
                 Import-Module Microsoft.PowerShell.Management -ErrorAction Stop
             } catch {
                 Write-Host 'Failed to load the Microsoft.PowerShell.Management module: $_'
-                Exit-Process
+                Pause
                 return
             }
 
@@ -41,7 +41,7 @@ function Invoke-SystemRestore {
                 `$RestorePoints = Get-ComputerRestorePoint | Where-Object { `$_.CreationTime.Date -eq (Get-Date).Date }
             } catch {
                 Write-Host 'Failed to retrieve restore points: $_'
-                Exit-Process
+                Pause
                 return
             }
 
@@ -53,12 +53,12 @@ function Invoke-SystemRestore {
                 Write-Host 'Restore Point created successfully!' -ForegroundColor Green 
             }
             Write-Host ''
-            Exit-Process
+            Pause
       "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Exit-Process
+        Pause
     }
 }
 
@@ -84,12 +84,12 @@ function Invoke-DiskRepair {
             Write-Host ''
 
             # Wait to continue
-            Exit-Process
+            Pause
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Exit-Process
+        Pause
     }
 }
  
@@ -117,11 +117,11 @@ function Invoke-DiskCleanup {
             Write-Host '(4/4) Using DISM to perform cleanup operations!' -ForegroundColor Cyan
             dism /Online /Cleanup-Image /StartComponentCleanup /ResetBase
             Write-Host ''
-            Exit-Process
+            Pause
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Exit-Process
+        Pause
     }
 }

@@ -16,7 +16,7 @@ function Set-DarkTheme {
         Set-RegistryKey -Path $Key.Path -Name $Key.Name -Type $Key.Type -Value $Key.Value
     }
     Write-Host ""
-    Exit-Process
+    Pause
 }
 
 function Set-DatePreferences {
@@ -46,7 +46,7 @@ function Set-DatePreferences {
         Set-RegistryKey -Path $Key.Path -Name $Key.Name -Type $Key.Type -Value $Key.Value
     }
     Write-Host ""
-    Exit-Process
+    Pause
 }
 
 function Set-ExplorerPreferences {
@@ -69,7 +69,7 @@ function Set-ExplorerPreferences {
         Set-RegistryKey -Path $Key.Path -Name $Key.Name -Type $Key.Type -Value $Key.Value
     }
     Write-Host ""
-    Exit-Process
+    Pause
 }
 
 function Remove-ExplorerGallery {
@@ -88,11 +88,11 @@ function Remove-ExplorerGallery {
             Remove-RegistryKey -Key 'HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\$HomeGUID'
             Remove-RegistryKey -Key 'HKLM\Software\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\$GalleryGUID'
             Write-Host ''
-            Exit-Process
+            Pause
         "
     }
     catch {
         Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
-        Exit-Process
+        Pause
     }
 }

@@ -27,15 +27,6 @@ function Show-ErrorMessage {
     }
 }
 
-function Exit-Process {
-    if ($Bypass) {
-        Write-Host "Ending script block..."
-    }
-    else {
-        Pause
-    }
-}
-
 function Invoke-ElevatedShell {
     # Parameters
     param (
