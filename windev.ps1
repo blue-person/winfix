@@ -9,7 +9,6 @@ Import-Module ".\modules\performance.psm1" -Force
 function Show-MainMenu {
     # Variables
     $DisplayMenu = $true
-    $WindowTitle = "Winfix Toolbox"
     $MenuTitle = "Windows Fixer Toolbox!" 
     $MenuOptions = @(
         @{Name = "Maintenance Settings"; Description = "Settings for basic maintenance on the device" },
@@ -18,9 +17,6 @@ function Show-MainMenu {
         @{Name = "Advanced Settings"; Description = "Advanced tuning, but handle with caution" },
         @{Name = "Exit"; Description = "Close toolbox" }
     )
-
-    # Change window title
-    Set-WindowTitle $WindowTitle
 
     # Loop to keep the menu active
     while ($DisplayMenu) {
@@ -150,6 +146,10 @@ function Invoke-Winfix {
     Invoke-WebRequest -Uri $Uri -OutFile $File
     & powershell -ExecutionPolicy Bypass -File $File
 }
+
+# Change window title
+$WindowTitle = "Winfix Toolbox"
+Set-WindowTitle $WindowTitle
 
 # Start program
 try {

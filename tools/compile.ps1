@@ -71,10 +71,6 @@ Write-Host ""
 $Modules = Get-ChildItem -Path $ModulesDir -Filter *.psm1 
 $OutputContent += Get-FolderContent -Items $Modules -Message "Joining all modules!"
 
-# Get all files in the scripts folder
-$Scripts = Get-ChildItem -Path $ScriptsDir -Filter *.ps1 | Where-Object { $_.FullName -ne $PSCommandPath }
-$OutputContent += Get-FolderContent -Items $Scripts -Message "Joining all scripts!"
-
 # Get all files in the root folder
 $Main = Get-ChildItem -Path $RootDir -Filter *.ps1 
 $OutputContent += Get-FolderContent -Items $Main -Message "Joining all main files!"
