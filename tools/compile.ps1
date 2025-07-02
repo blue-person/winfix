@@ -1,6 +1,6 @@
 # Variables
 $OutputContent = ""
-$RootDir = Split-Path (Get-Location) -Parent
+$RootDir = Split-Path (Get-Location)
 $ScriptsDir = Join-Path $RootDir "scripts"
 $ModulesDir = Join-Path $RootDir "modules"
 $OutputDir = Join-Path $RootDir "releases"
