@@ -1,6 +1,6 @@
 # Variables
 $OutputContent = ""
-$RootDir = Split-Path (Get-Location)
+$RootDir = "D:\a\winfix\winfix" #Split-Path (Get-Location) -Parent
 $ScriptsDir = Join-Path $RootDir "scripts"
 $ModulesDir = Join-Path $RootDir "modules"
 $OutputDir = Join-Path $RootDir "releases"
