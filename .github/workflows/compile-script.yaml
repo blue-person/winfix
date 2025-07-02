@@ -1,0 +1,20 @@
+name: Compile PowerShell Script
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-sign:
+    name: Compile and Validate Script
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      
+    - name: Compile Script
+      run: powershell -ExecutionPolicy Bypass -File ./tools/compile.ps1
+
+    - name: Validate Compiled Script
+      run: powershell -ExecutionPolicy Bypass -File ./releases/winfix.ps1

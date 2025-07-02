@@ -47,7 +47,6 @@ function Get-FolderContent {
 }
 
 # Initial message
-Clear-Host
 Write-Host "Started process!" -ForegroundColor Cyan
 
 # Create directory if it doesn't exists
@@ -80,7 +79,3 @@ Write-Host "Started to save content!" -ForegroundColor Cyan
 Set-Content -Path $OutputFile -Value $OutputContent
 Write-Host "Content has been saved in $OutputFile!" -ForegroundColor Green
 Write-Host ""
-
-# End script
-Pause
-Clear-Host
