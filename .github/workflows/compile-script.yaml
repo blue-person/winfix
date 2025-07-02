@@ -12,10 +12,6 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
-      
-    - name: List winfix directory
-      run: Get-ChildItem -Recurse D:\a\winfix\
-      shell: pwsh
 
     - name: Compile Script
       run: powershell -ExecutionPolicy Bypass -File ./tools/compile.ps1
