@@ -72,7 +72,23 @@ function Set-ExplorerPreferences {
     Pause
 }
 
-function Remove-ExplorerGallery {
+function Remove-HomeSettings {      
+    try {
+        # Disable Home page from Windows Settings
+        Invoke-ElevatedShell "
+            Write-Host 'Removing Home from Windows Settings!' -ForegroundColor Cyan
+            Set-RegistryKey -Path 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name 'SettingsPageVisibility' -Type 'REG_SZ' -Value 'hide:home'
+            Write-Host ''
+            Pause
+        "
+    }
+    catch {
+        Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
+        Pause
+    }
+}
+
+function Remove-HomeExplorer {
     # Variables
     $HomeGUID = "{f874310e-b6b7-47dc-bc84-b9e6b38f5903}"
     $GalleryGUID = "{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}"

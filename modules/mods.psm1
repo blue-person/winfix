@@ -41,7 +41,7 @@ function Set-PowerPlan {
             Write-Host 'Changing power plan Settings...'
             powercfg -hibernate off
             powercfg -change disk-timeout-ac 1
-            powercfg -change disk-timeout-dc 0
+            powercfg -change disk-timeout-dc 1
             powercfg -change monitor-timeout-ac $MonitorTimeout
             powercfg -change monitor-timeout-dc $MonitorTimeout
             powercfg -change standby-timeout-ac $StandbyTimeout
@@ -137,6 +137,7 @@ function Disable-Telemetry {
                 @{Path = 'HKLM\Software\Policies\Microsoft\Windows\System'; Name = 'EnableActivityFeed'; Value = '0'; Type = 'REG_DWORD'},
                 @{Path = 'HKLM\Software\Policies\Microsoft\Windows\System'; Name = 'PublishUserActivities'; Value = '0'; Type = 'REG_DWORD'},
                 @{Path = 'HKLM\Software\Policies\Microsoft\Windows\System'; Name = 'UploadUserActivities'; Value = '0'; Type = 'REG_DWORD'},
+                @{Path = 'HKLM\Software\Policies\Microsoft\Windows\WindowsAI'; Name = 'DisableAIDataAnalysis'; Value = '1'; Type = 'REG_DWORD'},
                 @{Path = 'HKLM\System\ControlSet001\Services\Ndu'; Name = 'Start'; Value = '2'; Type = 'REG_DWORD'},
                 @{Path = 'HKLM\System\CurrentControlSet\Control\Remote Assistance'; Name = 'fAllowToGetHelp'; Value = '0'; Type = 'REG_DWORD'},
                 @{Path = 'HKLM\System\CurrentControlSet\Control\Session Manager\Memory Management'; Name = 'ClearPageFileAtShutdown'; Value = '0'; Type = 'REG_DWORD'},
@@ -211,7 +212,7 @@ function Remove-MicrosoftApps {
                 @{Name = 'Microsoft.549981C3F5F10'; Type = 'Package'},
                 @{Name = 'MicrosoftCorporationII.MicrosoftFamily'; Type = 'Package'},
                 @{Name = 'MicrosoftCorporationII.QuickAssist'; Type = 'Package'},
-                @{Name = 'Recall'; Type = 'App'},
+                @{Name = 'Recall'; Type = 'Feature'},
                 @{Name = 'XboxOneSmartGlass'; Type = 'Package'}
             )
             
@@ -612,10 +613,7 @@ function Enable-VerboseMode {
             # Structures
             `$Keys = @(
                 @{Path = 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System'; Name = 'VerboseStatus'; Type = 'REG_DWORD'; Value = '1'},
-                @{Path = 'HKLM\System\CurrentControlSet\Control'; Name = 'WaitToKillServiceTimeout'; Type = 'REG_DWORD'; Value = '3000'}
-                @{Path = 'HKLM\System\CurrentControlSet\Control\CrashControl'; Name = 'DisableEmoticon'; Type = 'REG_DWORD'; Value = '1'},
-                @{Path = 'HKLM\System\CurrentControlSet\Control\CrashControl'; Name = 'DisplayParameters'; Type = 'REG_DWORD'; Value = '1'},
-                @{Path = 'HKLM\System\CurrentControlSet\Control\FileSystem'; Name = 'LongPathsEnabled'; Value = '1'; Type = 'REG_DWORD'}
+                @{Path = 'HKLM\System\CurrentControlSet\Control\FileSystem'; Name = 'LongPathsEnabled'; Value = '1'; Type = 'REG_DWORD'},
             )
 
             # Edit registry keys

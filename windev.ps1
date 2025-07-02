@@ -62,7 +62,8 @@ function Show-CustomizationMenu {
         @{Name = "Enable Dark Theme"; Description = "Set dark theme...duh!" },
         @{Name = "Change Date Preferences"; Description = "Set time and date format to my personal favorite" },
         @{Name = "Change Explorer Preferences"; Description = "Set File Explorer preferences to my personal favorite" },
-        @{Name = "Remove Gallery from Explorer"; Description = "Remove Home and Gallery from File Explorer" },
+        @{Name = "Remove Home from Settings"; Description = "Remove Home from Windows Settings" },
+        @{Name = "Remove Home from Explorer"; Description = "Remove Home and Gallery from File Explorer" },
         @{Name = "Return to main menu"; Description = "Close current menu" }
     )
  
@@ -73,8 +74,9 @@ function Show-CustomizationMenu {
             (0) { Set-DarkTheme; break }
             (1) { Set-DatePreferences; break }
             (2) { Set-ExplorerPreferences; break }
-            (3) { Remove-ExplorerGallery; break }
-            (4) { $DisplayMenu = $false; break }
+            (3) { Remove-HomeSettings; break }
+            (4) { Remove-HomeExplorer; break }
+            (5) { $DisplayMenu = $false; break }
         }
     }    
 }

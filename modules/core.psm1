@@ -112,14 +112,17 @@ function Remove-App {
     # Parameters
     param (
         [Parameter(Mandatory = $true)][string]$Name,
-        [string]$Type = "App"
+        [string]$Type = "Feature"
     )
 
     # Remove the app
     try {
-        if ($Type -eq "App") {
-            Write-Host "Removing $Name..."
-            dism /Online /Disable-Feature /FeatureName:$Name /Quiet /NoRestart
+        if ($Type -eq "Feature") {
+            $feature = Get-WindowsOptionalFeature -Online -FeatureName $Name
+            if ($feature) {
+                Write-Host "Removing $Name..."
+                dism /Online /Disable-Feature /FeatureName:$Name /Quiet /NoRestart
+            }
         }
         elseif ($Type -eq "Package") {
             Write-Host "Removing everything that looks like $Name..."
