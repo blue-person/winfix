@@ -613,7 +613,7 @@ function Enable-VerboseMode {
             # Structures
             `$Keys = @(
                 @{Path = 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System'; Name = 'VerboseStatus'; Type = 'REG_DWORD'; Value = '1'},
-                @{Path = 'HKLM\System\CurrentControlSet\Control\FileSystem'; Name = 'LongPathsEnabled'; Value = '1'; Type = 'REG_DWORD'},
+                @{Path = 'HKLM\System\CurrentControlSet\Control\FileSystem'; Name = 'LongPathsEnabled'; Type = 'REG_DWORD'; Value = '1'}
             )
 
             # Edit registry keys

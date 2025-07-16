@@ -6,7 +6,6 @@ $FilePath = Join-Path $RootDir "releases\winfix.ps1"
 $SignPath = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe"
 
 # Initial message
-Clear-Host
 Write-Host "Started process!" -ForegroundColor Cyan
 
 # Digitally sign file
@@ -27,7 +26,3 @@ if ($FileStatus -eq "Valid") {
     Write-Host "Please check the certificate. The status was: $FileStatus"
     Write-Host ""
 }
-
-# End script
-Pause
-Clear-Host

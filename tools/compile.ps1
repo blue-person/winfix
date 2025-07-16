@@ -1,7 +1,14 @@
+# Verify if we are in a test env
+$RootDir = "D:\a\winfix\winfix"
+if (Test-Path $RootDir) {
+    Write-Host "We are in a test enviroment!" -ForegroundColor Yellow
+    Write-Host ""
+} else {
+    $RootDir = Split-Path (Get-Location) -Parent
+}
+
 # Variables
 $OutputContent = ""
-$RootDir = "D:\a\winfix\winfix" #Split-Path (Get-Location) -Parent
-$ScriptsDir = Join-Path $RootDir "scripts"
 $ModulesDir = Join-Path $RootDir "modules"
 $OutputDir = Join-Path $RootDir "releases"
 $OutputFile = Join-Path $OutputDir "winfix.ps1"
