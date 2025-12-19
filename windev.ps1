@@ -117,7 +117,7 @@ function Show-AdvancedMenu {
         @{Name = "Disable Non-Essential Processes"; Description = "Disable processes such as GameDVR and Consumer Features" },
         @{Name = "Disable Non-Essential Services"; Description = "Set some services to start on demand rather than on startup" },
         @{Name = "Disable Adobe Services"; Description = "Manage Adobe, Adobe Desktop, and Acrobat Updates services" },
-        @{Name = "Enable OS Verbose Mode"; Description = "Allow detailed messages during the login and BSOD process" },
+        @{Name = "Enable OS Verbose Mode"; Description = "Allow detailed messages during the login process" },
         @{Name = "Prefer IPv4 over IPv6"; Description = "Prefer IPv4 over IPv6 when possible" },
         @{Name = "Bypass PC Health Check"; Description = "Bypasses PC Health Check so any computer can upgrade to Windows 11" },
         @{Name = "Return to main menu"; Description = "Close current menu" }
