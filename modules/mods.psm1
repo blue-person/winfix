@@ -2,6 +2,43 @@
 Import-Module ".\modules\core.psm1" -Force
 
 # Functions
+function Disable-HealthCheck {
+    # Modify user settings
+    Write-Host "(1/5) Setting upgrade user flag!" -ForegroundColor Cyan
+    Set-RegistryKey -Path "HKCU\Software\Microsoft\PCHC" -Name "UpgradeEligibility" -Type "REG_DWORD" -Value "1"
+    Write-Host ""
+
+    # Modify machine settings
+    try {
+        Invoke-ElevatedShell "
+            Write-Host '(2/5) Clearing old upgrade failure records!' -ForegroundColor Cyan
+            Remove-RegistryKey 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\CompatMarkers'
+            Remove-RegistryKey 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Shared'
+            Remove-RegistryKey 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\TargetVersionUpgradeExperienceIndicators'
+            Write-Host ''
+
+            Write-Host '(3/5) Setting hardware compatibility flags!' -ForegroundColor Cyan
+            Set-RegistryKey -Path 'HKLM\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\HwReqChk' -Name 'HwReqChkVars' -Type 'REG_MULTI_SZ' -Value 'SQ_SecureBootCapable=TRUE `r`nSQ_SecureBootEnabled=TRUE `r`nSQ_TpmVersion=2 `r`nSQ_RamMB=8192'
+            Write-Host ''
+
+            Write-Host '(4/5) Allowing upgrades on unsupported TPM or CPU!' -ForegroundColor Cyan
+            Set-RegistryKey -Path 'HKLM\System\Setup\MoSetup' -Name 'AllowUpgradesWithUnsupportedTPMOrCPU' -Type 'REG_DWORD' -Value '1'
+            Write-Host ''
+            
+            Write-Host '(5/5) Setting upgrade admin flag!' -ForegroundColor Cyan
+            Set-RegistryKey -Path 'HKCU\Software\Microsoft\PCHC' -Name 'UpgradeEligibility' -Type 'REG_DWORD' -Value '1'
+            Write-Host ''
+
+            # Wait to continue
+            Pause
+        "
+    }
+    catch {
+        Show-ErrorMessage -Title "Failed to run!" -Message $_.Exception.Message
+        Pause
+    }
+}
+
 function Set-PowerPlan {
     # Parameters
     param (

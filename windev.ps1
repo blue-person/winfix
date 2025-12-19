@@ -119,6 +119,7 @@ function Show-AdvancedMenu {
         @{Name = "Disable Adobe Services"; Description = "Manage Adobe, Adobe Desktop, and Acrobat Updates services" },
         @{Name = "Enable OS Verbose Mode"; Description = "Allow detailed messages during the login and BSOD process" },
         @{Name = "Prefer IPv4 over IPv6"; Description = "Prefer IPv4 over IPv6 when possible" },
+        @{Name = "Bypass PC Health Check"; Description = "Bypasses PC Health Check so any computer can upgrade to Windows 11" },
         @{Name = "Return to main menu"; Description = "Close current menu" }
     )
  
@@ -134,7 +135,8 @@ function Show-AdvancedMenu {
             (5) { Disable-AdobeServices; break }
             (6) { Enable-VerboseMode; break }
             (7) { Set-IPv6Preferences -Setting "PreferIPv4"; break }
-            (8) { $DisplayMenu = $false; break }
+            (8) { Disable-HealthCheck -Setting "PreferIPv4"; break }
+            (9) { $DisplayMenu = $false; break }
         }
     }
 }
